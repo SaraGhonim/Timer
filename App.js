@@ -9,8 +9,11 @@ import {
   Button,
   Image,
   ImageBackground,
+  TouchableOpacity,
 } from 'react-native';
 import i1 from './assets/i1.jpeg';
+import i2 from './assets/i2.png';
+import i3 from './assets/i3.jpeg';
 
 export default class App extends Component {
   state = {
@@ -26,15 +29,26 @@ export default class App extends Component {
       'سافر أبي إلى الحج هذا العام',
       'القارب الجديد يهتز نبتمبنيتمب بتيمبتمن بيمبتمن ',
       'لم أذهب إلى أي مكان هذا العام أيضا وأنا حزين للغاية',
-      'لم أذهب إلى أي مكان هذا العام أيضا وأنا حزين للغايةأنت',
-      'أنا أيضا لم أذهب إلى أي مكان هذا العام أيضا وأنا حزين للغاية',
-      ,
-      '    ',
+      'ذهبkjkljlj إلى أي مكان هذا العام أيضا وأنا حزين للغايةأنت',
+      'سافر جدي إلى الحج هذا العام',
+      'سافرت أمي و أختى إلى الحج هذا العام',
+      'jhkjhkjhkjhkjhkj',
+      '342354657689987',
+      '11111111111111111111111',
     ],
     string: '',
     color: '',
     color2: '',
-    colors1: ['blue', '#7a42f4', 'brown', '#ffd420', 'black', 'orange', 'pink'],
+    colors1: [
+      'blue',
+      '#7a42f4',
+      '#4b0082',
+      'brown',
+      '#ffd420',
+      'black',
+      'orange',
+      'pink',
+    ],
     colors2: [
       'brown',
       'black',
@@ -43,6 +57,7 @@ export default class App extends Component {
       '#ffd420',
       '#7a42f4',
       'purple',
+      '#4b0082',
     ],
 
     statement_timer: null,
@@ -58,10 +73,11 @@ export default class App extends Component {
 
     let statement_timer = setInterval(() => {
       this.render_statements(this.state.index_OF_statement);
-    }, 2000);
+    }, 6000);
+
     this.setState({statement_timer});
 
-    this.setState({isPressed: true}, () => {
+    this.setState({isPressed: 2}, () => {
       let timer = setInterval(() => {
         var num = (Number(this.state.seconds_Counter) + 1).toString(),
           count = this.state.minutes_Counter;
@@ -83,7 +99,12 @@ export default class App extends Component {
     if (this.state.index_OF_statement < this.state.statments.length - 1) {
       this.state.index_OF_statement = this.state.index_OF_statement + 1;
     }
-    var statment = this.state.statments[this.state.index_OF_statement];
+    if (this.state.index_OF_statement === 6) {
+      this.check_index_of_statement();
+    }
+
+    var random_statment_index = Math.floor(Math.random() * 10) + 1;
+    var statment = this.state.statments[random_statment_index];
     let index = [Math.floor(Math.random() * 6) + 1];
     let index_Colors = [Math.floor(Math.random() * 6) + 1];
     var isRed = Math.floor(Math.random() * 3) + 1;
@@ -96,8 +117,7 @@ export default class App extends Component {
       color2: this.state.colors2[index_Colors],
       isRed: isRed,
     });
-    console.log(this.state.isPressed)
-    // this.check_index_of_statement();
+    console.log(this.state.isPressed);
   };
   move = () => {
     var min = Number(this.state.minutes_Counter);
@@ -111,105 +131,122 @@ export default class App extends Component {
     this.render_statements(this.state.index_OF_statement);
   };
   check_index_of_statement = () => {
-    if (this.state.index_OF_statement === 5) {
+    if (this.state.index_OF_statement === 6) {
       var isPressed = 3;
-
-      this.state.timer_array.forEach(elem => (this.state.average += elem));
+      var average = 0;
+      this.state.timer_array.forEach(elem => (average += elem));
       this.setState({
         minutes_Counter: '00',
         seconds_Counter: '00',
         isPressed: isPressed,
         average: average,
       });
-      console.log(this.state.isPressed)
-
+      console.log(this.state.isPressed);
     }
   };
   render() {
     return (
       <View style={{flex: 1}}>
+        {/* <ImageBackground
+              source={require('./assets/i3.jpeg')}
+              style={{
+                width: '100%',
+                height: '100%',
+              }}> */}
         {this.state.isPressed === 2 ? (
           <View>
-            <Text style={{textAlign: 'center', fontSize: 40, margin: 20}}>
-              {this.state.minutes_Counter} : {this.state.seconds_Counter}
-            </Text>
+            
+              <Text style={{textAlign: 'center', fontSize: 40, margin: 20}}>
+                {this.state.minutes_Counter} : {this.state.seconds_Counter}
+              </Text>
 
             {this.state.isRed === 1 ? (
-              <Text
-                style={{
-                  color: this.state.color,
-                  textAlign: 'center',
-                  fontSize: 35,
-                  marginTop: 140,
-                  marginBottom: 70,
-                }}>
-                {this.state.string.split(' ').map((x, ind) => (
-                  <Text
-                    onPress={this.state.index == ind ? this.move : this.move1}
-                    style={{
-                      color: this.state.index == ind ? 'red' : this.state.color,
-                    }}>
-                    {x + ' '}
-                  </Text>
-                ))}
-              </Text>
+             
+                <Text
+                  style={{
+                    color: this.state.color,
+                    textAlign: 'center',
+                    fontSize: 35,
+                    marginTop: 140,
+                    marginBottom: 70,
+                  }}>
+                  {this.state.string.split(' ').map((x, ind) => (
+                    <Text
+                      onPress={this.state.index == ind ? this.move : this.move1}
+                      style={{
+                        color:
+                          this.state.index == ind ? 'red' : this.state.color,
+                      }}>
+                      {x + ' '}
+                    </Text>
+                  ))}
+                </Text>
             ) : this.state.isRed === 2 ? (
-              <Text
-                style={{
-                  color: this.state.color,
-                  textAlign: 'center',
-                  fontSize: 35,
-                  marginTop: 140,
-                  marginBottom: 70,
-                }}>
-                {this.state.string.split(' ').map((x, ind) => (
-                  <Text
-                    style={{
-                      color:
-                        this.state.index == ind
-                          ? this.state.color2
-                          : this.state.color,
-                    }}>
-                    {x + ' '}
-                  </Text>
-                ))}
-              </Text>
+             
+                <Text
+                  style={{
+                    color: this.state.color,
+                    textAlign: 'center',
+                    fontSize: 35,
+                    marginTop: 140,
+                    marginBottom: 70,
+                  }}>
+                  {this.state.string.split(' ').map((x, ind) => (
+                    <Text
+                      style={{
+                        color:
+                          this.state.index == ind
+                            ? this.state.color2
+                            : this.state.color,
+                      }}>
+                      {x + ' '}
+                    </Text>
+                  ))}
+                </Text>
             ) : (
-              <Text
-                style={{
-                  color: this.state.color,
-                  textAlign: 'center',
-                  fontSize: 35,
-                  marginTop: 140,
-                  marginBottom: 70,
-                }}>
-                {this.state.string}
-              </Text>
+              
+                <Text
+                  style={{
+                    color: this.state.color,
+                    textAlign: 'center',
+                    fontSize: 35,
+                    marginTop: 140,
+                    marginBottom: 70,
+                  }}>
+                  {this.state.string}
+                </Text>
             )}
           </View>
         ) : this.state.isPressed === 1 ? (
           <View style={{flex: 1}}>
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: 0,
-              }}>
+            
               <ImageBackground
-                source={this.state.icon1}
-                style={{width: '100%', height: '100%'}}>
+               style={{
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: '#006b8b',
+                }}>
                 <View style={styles.buttonContainer}>
-                  <Text style={styles.textStyle}>Welcome</Text>
-                  <View style={styles.buttonContainer}>
-                    <Button title="Start" onPress={this._start} />
+                  {/* <Text style={styles.textStyle}>Welcome</Text> */}
+                  <View
+                    style={{justifyContent: 'center', alignItems: 'center'}}>
+                    <Image
+                      source={require('./assets/i2.png')}
+                      style={styles.imageStyle}
+                    />
                   </View>
+                  <TouchableOpacity
+                    onPress={this._start}
+                    style={styles.loginScreenButton}
+                    underlayColor="#fff">
+                    <Text style={styles.loginText}>Start</Text>
+                  </TouchableOpacity>
                 </View>
               </ImageBackground>
             </View>
-          </View>
         ) : (
           <View>
-            <Text style={styles.textStyle}>{this.state.average}</Text>
+            <Text style={styles.textStyle_average}>{this.state.average}</Text>
           </View>
         )}
       </View>
@@ -218,22 +255,54 @@ export default class App extends Component {
 }
 
 const styles = StyleSheet.create({
+  loginText: {
+    color: 'black',
+    textAlign: 'center',
+    paddingLeft: 10,
+    paddingRight: 10,
+    fontSize: 25,
+  },
   buttonContainer: {
     margin: 20,
-    color: 'blue',
+    color: 'black',
     marginTop: 50,
     marginBottom: 32,
     marginVertical: 8,
 
     paddingTop: 10,
-    color: 'powderblue',
+    // color: 'powderblue',
+  },
+  loginScreenButton: {
+    marginRight: 40,
+    marginLeft: 40,
+    marginTop: 120,
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: '#ffff',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#fff',
   },
   textStyle: {
+    color: '#ffff',
+    fontSize: 60,
+    textAlign: 'center',
+    margin: 15,
+    marginBottom: 150,
+    fontWeight: 'bold',
+    fontFamily: 'Cochin',
+  },
+  textStyle_average: {
+    justifyContent: 'center',
     color: 'blue',
     fontSize: 90,
     textAlign: 'center',
     margin: 25,
     marginBottom: 30,
     fontWeight: '600',
+  },
+  imageStyle: {
+    height: 195,
+    width: 195,
   },
 });
