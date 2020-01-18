@@ -1,12 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Text,
-  StatusBar,
-  Button,
   Image,
   ImageBackground,
   TouchableOpacity,
@@ -24,17 +20,26 @@ export default class App extends Component {
     minutes_Counter: '00',
     seconds_Counter: '00',
     statments: [
+      'المحافظة على البيئة ضؤوؤة ملحة',
+      'رأيت هدهد جميل على الشجرة',
+      'فناء المدرسة ملى بالأشجار الرائعة',
       'أقبل التلميذ من المحاضرة حزينا ',
       'تسعى مصر للتقدم فى مجال الصناعة ',
+      'الصياد فى البحر أولاده يلعبون معه',
       'سافر أبي إلى الحج هذا العام',
-      'القارب الجديد يهتز نبتمبنيتمب بتيمبتمن بيمبتمن ',
-      'لم أذهب إلى أي مكان هذا العام أيضا وأنا حزين للغاية',
-      'ذهبkjkljlj إلى أي مكان هذا العام أيضا وأنا حزين للغايةأنت',
-      'سافر جدي إلى الحج هذا العام',
-      'سافرت أمي و أختى إلى الحج هذا العام',
-      'jhkjhkjhkjhkjhkj',
-      '342354657689987',
-      '11111111111111111111111',
+      'اشترك الولد مع ابيه فى العمل',
+      'تلوث المياة يؤدى إلى هلاك البشرية',
+      'نبيل يلعب مع اخوة مصطفى بالعجلة',
+      'ممارسة الرياضة للجسم و القرأة للعقل',
+      'القارب الجديد يهتز بشدة فى المياة',
+      'أسرة عمى أسرة متعانة و مستقرة',
+      'تمشى أمى للبيت بسرهة و لهفة',
+      'التماثيل فى الاقصر تجلب السياح',
+      ' تقع الازهار فى فصل الصيف',
+      'لا تتعب نفسك من أجل شخص لا يستحق',
+      'تعتنى الأم بصغارها و تخاف عليه',
+      'حضر الرئيس راكبا سيارته صباحا',
+      'حافظ على نظافة المكان المتواجد فيه',
     ],
     string: '',
     color: '',
@@ -43,7 +48,6 @@ export default class App extends Component {
       'blue',
       '#7a42f4',
       '#4b0082',
-      'brown',
       '#ffd420',
       'black',
       'orange',
@@ -74,10 +78,9 @@ export default class App extends Component {
     let statement_timer = setInterval(() => {
       this.render_statements(this.state.index_OF_statement);
     }, 6000);
+    this.setState({ statement_timer });
 
-    this.setState({statement_timer});
-
-    this.setState({isPressed: 2}, () => {
+    this.setState({ isPressed: 2 }, () => {
       let timer = setInterval(() => {
         var num = (Number(this.state.seconds_Counter) + 1).toString(),
           count = this.state.minutes_Counter;
@@ -92,18 +95,18 @@ export default class App extends Component {
           seconds_Counter: num.length == 1 ? '0' + num : num,
         });
       }, 1000);
-      this.setState({timer});
+      this.setState({ timer });
     });
   };
   render_statements = () => {
     if (this.state.index_OF_statement < this.state.statments.length - 1) {
       this.state.index_OF_statement = this.state.index_OF_statement + 1;
     }
-    if (this.state.index_OF_statement === 6) {
+    if (this.state.index_OF_statement === 7) {
       this.check_index_of_statement();
     }
 
-    var random_statment_index = Math.floor(Math.random() * 10) + 1;
+    var random_statment_index = Math.floor(Math.random() * 19) + 1;
     var statment = this.state.statments[random_statment_index];
     let index = [Math.floor(Math.random() * 6) + 1];
     let index_Colors = [Math.floor(Math.random() * 6) + 1];
@@ -116,22 +119,26 @@ export default class App extends Component {
       color: this.state.colors1[index_Colors],
       color2: this.state.colors2[index_Colors],
       isRed: isRed,
+      minutes_Counter: '00',
+      seconds_Counter: '00'
     });
     console.log(this.state.isPressed);
   };
+
   move = () => {
     var min = Number(this.state.minutes_Counter);
     var sec = Number(this.state.seconds_Counter);
     var millisecodn = sec * 1000 + min * 60 * 1000;
     this.state.timer_array.push(millisecodn);
-    this.setState({
-      minutes_Counter: '00',
-      seconds_Counter: '00',
-    });
+    // this.setState({
+    //   minutes_Counter: '00',
+    //   seconds_Counter: '00',
+    // });
     this.render_statements(this.state.index_OF_statement);
   };
+
   check_index_of_statement = () => {
-    if (this.state.index_OF_statement === 6) {
+    if (this.state.index_OF_statement === 7) {
       var isPressed = 3;
       var average = 0;
       this.state.timer_array.forEach(elem => (average += elem));
@@ -144,24 +151,71 @@ export default class App extends Component {
       console.log(this.state.isPressed);
     }
   };
+
+  home = () => {
+    return (<View style={{ flex: 1 }}>
+      <ImageBackground
+        style={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: '#006b8b',
+        }}>
+        <View style={styles.buttonContainer}>
+          {/* <Text style={styles.textStyle}>Welcome</Text> */}
+          <View
+            style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <Image
+              source={require('./assets/i2.png')}
+              style={styles.imageStyle}
+            />
+          </View>
+          <TouchableOpacity
+            onPress={this._start}
+            style={styles.loginScreenButton}
+            underlayColor="#fff">
+            <Text style={styles.loginText}>Start</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+    </View>)
+  }
+  resetTimer = () => {
+    this.setState({
+      minutes_Counter: '00',
+      seconds_Counter: '00',
+      isPressed: 1,
+      isRed: 1,
+      icon1: i1,
+      timer: null,
+      statement_timer: null,
+      index: 0,
+      index_Colors: 0,
+      timer_array: [],
+      index_OF_statement: 0,
+      average: 0,
+      string: '',
+      color: '',
+      color2: '',
+    })
+    this._start();
+  }
   render() {
     return (
-      <View style={{flex: 1}}>
-        {/* <ImageBackground
-              source={require('./assets/i3.jpeg')}
+      <View style={{ flex: 1 }}>
+
+        {this.state.isPressed === 2 ? (
+          <View>
+            <ImageBackground
+              source={require('./assets/i5.jpg')}
               style={{
                 width: '100%',
                 height: '100%',
-              }}> */}
-        {this.state.isPressed === 2 ? (
-          <View>
-            
-              <Text style={{textAlign: 'center', fontSize: 40, margin: 20}}>
+              }}>
+              <Text style={{ textAlign: 'center', fontSize: 40, margin: 20, color: '#000' }}>
                 {this.state.minutes_Counter} : {this.state.seconds_Counter}
               </Text>
+              {this.state.isRed === 1 ? (
 
-            {this.state.isRed === 1 ? (
-             
                 <Text
                   style={{
                     color: this.state.color,
@@ -181,8 +235,8 @@ export default class App extends Component {
                     </Text>
                   ))}
                 </Text>
-            ) : this.state.isRed === 2 ? (
-             
+              ) : this.state.isRed === 2 ? (
+
                 <Text
                   style={{
                     color: this.state.color,
@@ -203,52 +257,45 @@ export default class App extends Component {
                     </Text>
                   ))}
                 </Text>
-            ) : (
-              
-                <Text
-                  style={{
-                    color: this.state.color,
-                    textAlign: 'center',
-                    fontSize: 35,
-                    marginTop: 140,
-                    marginBottom: 70,
-                  }}>
-                  {this.state.string}
-                </Text>
-            )}
+              ) : (
+                    <Text
+                      style={{
+                        color: this.state.color,
+                        textAlign: 'center',
+                        fontSize: 35,
+                        marginTop: 140,
+                        marginBottom: 70,
+                      }}>
+                      {this.state.string}
+                    </Text>
+                  )}
+            </ImageBackground>
           </View>
         ) : this.state.isPressed === 1 ? (
-          <View style={{flex: 1}}>
-            
-              <ImageBackground
-               style={{
-                  width: '100%',
-                  height: '100%',
-                  backgroundColor: '#006b8b',
-                }}>
-                <View style={styles.buttonContainer}>
-                  {/* <Text style={styles.textStyle}>Welcome</Text> */}
-                  <View
-                    style={{justifyContent: 'center', alignItems: 'center'}}>
-                    <Image
-                      source={require('./assets/i2.png')}
-                      style={styles.imageStyle}
-                    />
-                  </View>
+          this.home()) : (
+              <View>
+                <ImageBackground
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: '#006b8b',
+                  }}>
+                  <Text style={styles.textStyle_average}>{this.state.average}</Text>
                   <TouchableOpacity
-                    onPress={this._start}
+                    onPress={this.resetTimer}
                     style={styles.loginScreenButton}
                     underlayColor="#fff">
-                    <Text style={styles.loginText}>Start</Text>
+                    <Text style={styles.loginText}>Try Again</Text>
                   </TouchableOpacity>
-                </View>
-              </ImageBackground>
-            </View>
-        ) : (
-          <View>
-            <Text style={styles.textStyle_average}>{this.state.average}</Text>
-          </View>
-        )}
+                  <TouchableOpacity
+                    onPress={this.home}
+                    style={styles.loginScreenButton}
+                    underlayColor="#fff">
+                    <Text style={styles.loginText}>Go Home</Text>
+                  </TouchableOpacity>
+                </ImageBackground>
+              </View>
+            )}
       </View>
     );
   }
@@ -294,7 +341,7 @@ const styles = StyleSheet.create({
   },
   textStyle_average: {
     justifyContent: 'center',
-    color: 'blue',
+    color: 'red',
     fontSize: 90,
     textAlign: 'center',
     margin: 25,
