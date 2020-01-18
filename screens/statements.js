@@ -11,8 +11,9 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import i1 from '../assets/i1.jpeg';
+import { set } from 'react-native-reanimated';
 
-export default class Timer extends Component {
+export default class Home extends Component {
   constructor(props) {
     super(props);
     this.render_statements = this.render_statements.bind(this);
@@ -23,8 +24,8 @@ export default class Timer extends Component {
 
     this.state = {
       isPressed: 2,
-      isRed: [1,1,1,1,1,3,1,1,1,2,3,1,2,1,3,1,1,2,1,1,1,1],
-      red:2,
+      isRed: [1, 1, 1, 1, 1, 3, 1, 1, 1, 2, 3, 1, 2, 1, 3, 1, 1, 2, 1, 1, 1, 1],
+      red: 2,
       timer: null,
       minutes_Counter: '00',
       seconds_Counter: '00',
@@ -78,21 +79,41 @@ export default class Timer extends Component {
       timer_array: [],
       index_OF_statement: 0,
       average: 0,
-      ranNums:[],
+      ranNums: [],
     };
   }
-  create_random_uniqe=()=>{
-
-     var nums = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],
-     ranNums1 = [],
-     i = nums.length,
-     j = 0;
-     while (i--) {
-     j = Math.floor(Math.random() * (i+1));
-     ranNums1.push(nums[j]);
-     this.state.ranNums.push(nums[j]);
-     nums.splice(j,1);
-     console.log(ranNums1); }}
+  create_random_uniqe = () => {
+    var nums = [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+      ],
+      ranNums1 = [],
+      i = nums.length,
+      j = 0;
+    while (i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      ranNums1.push(nums[j]);
+      this.state.ranNums.push(nums[j]);
+      nums.splice(j, 1);
+    }
+  };
 
   componentDidMount() {
     this.create_random_uniqe();
@@ -101,7 +122,6 @@ export default class Timer extends Component {
     let statement_timer = setInterval(() => {
       this.render_statements();
       console.log('red in interval', this.state.red);
-
     }, 5000);
 
     this.setState({statement_timer});
@@ -124,53 +144,55 @@ export default class Timer extends Component {
   }
 
   render_statements = () => {
+    console.log(this.state.index_OF_statement);
+
     if (this.state.index_OF_statement < this.state.statments.length - 1) {
       this.state.index_OF_statement = this.state.index_OF_statement + 1;
     }
     if (this.state.index_OF_statement === 7) {
-      this.check_index_of_statement();
-      clearInterval(this.state.timer);
-      clearInterval(this.state.statement_timer);
-      console.log('clear the interval');
+      setTimeout(() => {
+        this.check_index_of_statement();
+        clearInterval(this.state.timer);
+        clearInterval(this.state.statement_timer);
+        console.log('clear the interval');
+      }, 5000);
     }
 
-    
-    var random_statment_index = this.state.ranNums[this.state.index_OF_statement];
+    var random_statment_index = this.state.ranNums[
+      this.state.index_OF_statement
+    ];
     var statment = this.state.statments[random_statment_index];
     let index = [Math.floor(Math.random() * 6) + 1];
     let index_Colors = [Math.floor(Math.random() * 6) + 1];
     var index_Red = this.state.ranNums[this.state.index_OF_statement];
-   
+
     this.setState({
       string: statment,
       index: index,
       index_Colors: index_Colors,
       color: this.state.colors1[index_Colors],
       color2: this.state.colors2[index_Colors],
-      index_Red:index_Red,
+      index_Red: index_Red,
       red: this.state.isRed[index_Red],
       minutes_Counter: '00',
       seconds_Counter: '00',
     });
-
   };
   check_index_of_statement = () => {
-    if (this.state.index_OF_statement === 7) {
-      var isPressed = 3;
-      var average = 0;
-      this.state.timer_array.forEach(elem => (average += elem));
-      this.setState(
-        {
-          minutes_Counter: '00',
-          seconds_Counter: '00',
-          isPressed: isPressed,
-          average: average,
-        },
-        () => {
-          this.props.changeState(this.state.isPressed, this.state.average);
-        },
-      );
-    }
+    var isPressed = 3;
+    var average = 0;
+    this.state.timer_array.forEach(elem => (average += elem));
+    this.setState(
+      {
+        minutes_Counter: '00',
+        seconds_Counter: '00',
+        isPressed: isPressed,
+        average: average,
+      },
+      () => {
+        //   this.props.changeState(this.state.isPressed, this.state.average);
+console.log('finished')      },
+    );
   };
   move = () => {
     var min = Number(this.state.minutes_Counter);
@@ -178,9 +200,14 @@ export default class Timer extends Component {
     var millisecodn = sec * 1000 + min * 60 * 1000;
     this.state.timer_array.push(millisecodn);
 
-    this.render_statements(this.state.index_OF_statement);
+    setTimeout(()=>{
+        this.render_statements(this.state.index_OF_statement);
+
+
+    },6000)
   };
 
+ 
   render() {
     return (
       <View>
@@ -199,6 +226,7 @@ export default class Timer extends Component {
             }}>
             {this.state.minutes_Counter} : {this.state.seconds_Counter}
           </Text>
+<View>
           {this.state.red === 1 ? (
             <Text
               style={{
@@ -251,8 +279,48 @@ export default class Timer extends Component {
               {this.state.string}
             </Text>
           )}
+
+          </View>
+          {this.state.isPressed=== 3 ? (
+            <View>
+              {/* //this.props.navigation.navigate('Home') */}
+              <TouchableOpacity
+                style={styles.buttonContainer2}
+                onPress={() => this.props.navigation.navigate('Results')}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    paddingTop: 10,
+                    paddingBottom: 10,
+                    color: 'white',
+                  }}>
+                  {' '}
+                  Show Results
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View>
+              
+            </View>
+          )}
         </ImageBackground>
       </View>
     );
   }
 }
+const styles = StyleSheet.create({
+  buttonContainer2: {
+    backgroundColor: '#006b8b',
+    paddingTop: 5,
+    paddingBottom: 5,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    marginTop: 60,
+    margin: 20,
+    alignItems: 'center',
+    marginBottom: 60,
+  },
+});

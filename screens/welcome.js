@@ -22,7 +22,8 @@ export default class Home extends Component {
   _start = () => {
     this.setState({isPressed: 2}, () => {
       console.log('Start is Pressed Start the timer');
-      this.props.changeState(this.state.isPressed);
+    //   this.props.changeState(this.state.isPressed);
+      this.props.navigation.navigate('Register')
 
     });
   };
@@ -46,7 +47,7 @@ export default class Home extends Component {
               onPress={this._start}
               style={styles.loginScreenButton}
               underlayColor="#fff">
-              <Text style={styles.loginText}>Start</Text>
+              <Text style={styles.loginText}>Register</Text>
             </TouchableOpacity>
         </ImageBackground>
       </View>)}
