@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import i1 from './assets/i1.jpeg';
 import i2 from './assets/i2.png';
 import i3 from './assets/i3.jpeg';
@@ -63,7 +64,6 @@ export default class App extends Component {
       'purple',
       '#4b0082',
     ],
-
     statement_timer: null,
     index: 0,
     index_Colors: 0,
@@ -75,9 +75,10 @@ export default class App extends Component {
   _start = () => {
     this.render_statements(this.state.index_OF_statement);
 
-    let statement_timer = setInterval(() => {
-      this.render_statements(this.state.index_OF_statement);
-    }, 6000);
+      let statement_timer = setInterval(() => {
+        this.render_statements(this.state.index_OF_statement);
+      }, 6000);
+    
     this.setState({ statement_timer });
 
     this.setState({ isPressed: 2 }, () => {
@@ -104,14 +105,21 @@ export default class App extends Component {
     }
     if (this.state.index_OF_statement === 7) {
       this.check_index_of_statement();
+      clearInterval(this.state.timer);
+      clearInterval(this.state.statement_timer);
+      console.log('clear the interval')
     }
-
     var random_statment_index = Math.floor(Math.random() * 19) + 1;
     var statment = this.state.statments[random_statment_index];
     let index = [Math.floor(Math.random() * 6) + 1];
     let index_Colors = [Math.floor(Math.random() * 6) + 1];
     var isRed = Math.floor(Math.random() * 3) + 1;
-    console.log(this.state.isRed);
+    console.log('minutes in interval', this.state.minutes_Counter);
+    console.log('second in interval', this.state.seconds_Counter);
+    console.log('red in interval', this.state.isRed);
+    console.log('timer in interval', this.state.timer);
+    console.log('statment timer in interval', this.state.statement_timer);
+
     this.setState({
       string: statment,
       index: index,
@@ -122,7 +130,7 @@ export default class App extends Component {
       minutes_Counter: '00',
       seconds_Counter: '00'
     });
-    console.log(this.state.isPressed);
+
   };
 
   move = () => {
@@ -139,6 +147,7 @@ export default class App extends Component {
 
   check_index_of_statement = () => {
     if (this.state.index_OF_statement === 7) {
+
       var isPressed = 3;
       var average = 0;
       this.state.timer_array.forEach(elem => (average += elem));
@@ -148,56 +157,53 @@ export default class App extends Component {
         isPressed: isPressed,
         average: average,
       });
-      console.log(this.state.isPressed);
     }
   };
 
   home = () => {
-    return (<View style={{ flex: 1 }}>
-      <ImageBackground
-        style={{
-          width: '100%',
-          height: '100%',
-          backgroundColor: '#006b8b',
-        }}>
-        <View style={styles.buttonContainer}>
-          {/* <Text style={styles.textStyle}>Welcome</Text> */}
-          <View
-            style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Image
-              source={require('./assets/i2.png')}
-              style={styles.imageStyle}
-            />
+    return (
+      <View style={{ flex: 1 }}>
+        <ImageBackground
+          style={{
+            width: wp('100%'), height: hp('100%'),
+            backgroundColor: '#006b8b',
+          }}>
+          <View style={styles.buttonContainer}>
+            {/* <Text style={styles.textStyle}>Welcome</Text> */}
+            <View
+              style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <Image
+                source={require('./assets/i2.png')}
+                style={styles.imageStyle}
+              />
+            </View>
+            <TouchableOpacity
+              onPress={this._start}
+              style={styles.loginScreenButton}
+              underlayColor="#fff">
+              <Text style={styles.loginText}>Start</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            onPress={this._start}
-            style={styles.loginScreenButton}
-            underlayColor="#fff">
-            <Text style={styles.loginText}>Start</Text>
-          </TouchableOpacity>
-        </View>
-      </ImageBackground>
-    </View>)
+        </ImageBackground>
+      </View>)
   }
+
+
   resetTimer = () => {
+    // console.log('Stop the timer');
+    // console.log('min',this.state.minutes_Counter);
+    // console.log('second',this.state.seconds_Counter);
+    // console.log('average', this.state.average);
+    // console.log('timer', this.state.timer);
+    // console.log('timerStatment', this.state.statement_timer);
     this.setState({
-      minutes_Counter: '00',
-      seconds_Counter: '00',
       isPressed: 1,
-      isRed: 1,
-      icon1: i1,
       timer: null,
       statement_timer: null,
-      index: 0,
-      index_Colors: 0,
-      timer_array: [],
+      minutes_Counter: '00',
+      seconds_Counter: '00',
       index_OF_statement: 0,
-      average: 0,
-      string: '',
-      color: '',
-      color2: '',
     })
-    this._start();
   }
   render() {
     return (
@@ -206,10 +212,9 @@ export default class App extends Component {
         {this.state.isPressed === 2 ? (
           <View>
             <ImageBackground
-              source={require('./assets/i5.jpg')}
+              source={require('./assets/i6.jpg')}
               style={{
-                width: '100%',
-                height: '100%',
+                width: wp('100%'), height: hp('100%')
               }}>
               <Text style={{ textAlign: 'center', fontSize: 40, margin: 20, color: '#000' }}>
                 {this.state.minutes_Counter} : {this.state.seconds_Counter}
@@ -276,11 +281,10 @@ export default class App extends Component {
               <View>
                 <ImageBackground
                   style={{
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: '#006b8b',
+                    width: wp('100%'), height: hp('100%'),
+                    backgroundColor: '#ffff',
                   }}>
-                  <Text style={styles.textStyle_average}>{this.state.average}</Text>
+                  <Text style={styles.textStyle_average}>{this.state.average} ms</Text>
                   <TouchableOpacity
                     onPress={this.resetTimer}
                     style={styles.loginScreenButton}
@@ -288,7 +292,7 @@ export default class App extends Component {
                     <Text style={styles.loginText}>Try Again</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    onPress={this.home}
+                    onPress={this.resetTimer}
                     style={styles.loginScreenButton}
                     underlayColor="#fff">
                     <Text style={styles.loginText}>Go Home</Text>
@@ -305,27 +309,27 @@ const styles = StyleSheet.create({
   loginText: {
     color: 'black',
     textAlign: 'center',
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: wp('5%'),
+    paddingRight: wp('5%'),
     fontSize: 25,
   },
   buttonContainer: {
-    margin: 20,
+    margin:wp('5%'),
     color: 'black',
-    marginTop: 50,
-    marginBottom: 32,
-    marginVertical: 8,
+    marginTop: hp('5%'),
+    marginBottom: wp('5%'),
+    marginVertical: wp('5%'),
 
     paddingTop: 10,
     // color: 'powderblue',
   },
   loginScreenButton: {
-    marginRight: 40,
-    marginLeft: 40,
-    marginTop: 120,
-    paddingTop: 10,
-    paddingBottom: 10,
-    backgroundColor: '#ffff',
+    marginRight: wp('5%'),
+    marginLeft:wp('5%'),
+    marginTop: wp('30%'),
+    paddingTop: wp('5%'),
+    paddingBottom: wp('4%'),
+    backgroundColor: '#fff',
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#fff',
@@ -334,8 +338,8 @@ const styles = StyleSheet.create({
     color: '#ffff',
     fontSize: 60,
     textAlign: 'center',
-    margin: 15,
-    marginBottom: 150,
+    margin:wp('5%'),
+    marginBottom: wp('5%'),
     fontWeight: 'bold',
     fontFamily: 'Cochin',
   },
@@ -344,12 +348,12 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 90,
     textAlign: 'center',
-    margin: 25,
-    marginBottom: 30,
+    margin:wp('5%'),
+    marginBottom: wp('5%'),
     fontWeight: '600',
   },
   imageStyle: {
-    height: 195,
-    width: 195,
+    height:hp('30%'),
+    width: wp('60%'),
   },
 });
