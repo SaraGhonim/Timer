@@ -228,11 +228,7 @@ export default class Home extends Component {
     );
   };
   move = () => {
-    // console.log('the red',this.state.red)
-    // console.log('is clicked',this.state.isClicked)
-
-    this.setState({ isPressed: 2 });
-
+    this.setState({ isPressed: 2, isClicked: true });
     const interval = 1000 * parseInt(this.props.navigation.state.params.interval);
     if (this.state.red === 1) {
       var min = Number(this.state.minutes_Counter);
@@ -246,27 +242,23 @@ export default class Home extends Component {
       }
       setTimeout(() => {
         this.render_statements(this.state.index_OF_statement);
-        this.setState({ isCalculated: false })
+        this.setState({ isCalculated: false, isClicked: false })
 
       }, interval);
     } else {
       var number_of_wrong_answers = this.state.number_of_wrong_answers + 1;
-      this.setState({ isPressed: 1 });
-
       this.setState(
         {
           number_of_wrong_answers: number_of_wrong_answers,
-          button_color: 'red'
+          button_color: 'red',
+          isPressed: 1
         },
         () => {
-          // console.log(
-          //   'red not equell 1 he made mistake the button will turn red no word is red ',
-          //   this.state.red,
-          // );
           setTimeout(() => {
             this.setState(
               {
-                button_color: '#006b8b'
+                button_color: '#006b8b',
+                isClicked: false
               });
             this.render_statements(this.state.index_OF_statement);
           }, interval);
@@ -275,6 +267,7 @@ export default class Home extends Component {
     }
   };
   false_button_Is_Pressed = () => {
+    this.setState({ isClicked: true });
     const interval = 1000 * parseInt(this.props.navigation.state.params.interval);
     if (this.state.red === 1) {
       var number_of_wrong_answers = this.state.number_of_wrong_answers + 1;
@@ -292,6 +285,7 @@ export default class Home extends Component {
           setTimeout(() => {
             this.setState(
               {
+                isClicked: false,
                 button_color: '#006b8b'
               })
             this.render_statements(this.state.index_OF_statement);
@@ -301,6 +295,10 @@ export default class Home extends Component {
     }
     else {
       setTimeout(() => {
+        this.setState(
+          {
+            isClicked: false,
+          })
         this.render_statements(this.state.index_OF_statement);
       }, interval);
     }
@@ -404,7 +402,7 @@ export default class Home extends Component {
           ) : (
               <View>
                 <TouchableOpacity
-                  disabled={false}
+                  disabled={this.state.isClicked}
                   onPress={this.move}
                   style={styles.trueButtonContainer}>
                   <Text
@@ -420,7 +418,7 @@ export default class Home extends Component {
                 </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  disabled={false}
+                  disabled={this.state.isClicked}
                   onPress={this.false_button_Is_Pressed}
                   style={styles.falseButtonContainer}>
                   <Text
