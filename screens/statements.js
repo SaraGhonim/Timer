@@ -51,8 +51,6 @@ export default class Home extends Component {
         'حضر الرئيس راكبا سيارته صباحا ومعه كثير من الحراس',
         'أسرة عمى أسرة متعاونة ومستقرة انا احبهم جدا',
         'يجب ان نحافظ على المياه ،تلوث المياة يؤدى إلى هلاك البشرية',
-
-
       ],
       string: '',
       color: '',
@@ -85,6 +83,7 @@ export default class Home extends Component {
       index_OF_statement: 0,
       average: 0,
       ranNums: [],
+      isCalculated:false,
     };
   }
   create_random_uniqe = () => {
@@ -119,10 +118,11 @@ export default class Home extends Component {
       nums.splice(j, 1);
     }
   };
-
-  componentDidMount() {
+  async componentDidMount() {
     this.create_random_uniqe();
     this.render_statements();
+    const interval =
+  1000 * parseInt(this.props.navigation.state.params.interval);
 
     // let statement_timer = setInterval(() => {
     //   this.render_statements();
@@ -130,8 +130,8 @@ export default class Home extends Component {
     // }, 5000);
 
     // this.setState({statement_timer});
-    
-    const interval = 1000*parseInt(this.props.navigation.state.params.interval);
+
+   
 
     let timer = setInterval(() => {
       var num = (Number(this.state.seconds_Counter) + 1).toString(),
@@ -141,15 +141,23 @@ export default class Home extends Component {
         count = (Number(this.state.minutes_Counter) + 1).toString();
         num = '00';
       }
-    
-      if ((this.state.isClicked) == false&&this.state.red!==1&& this.state.index_OF_statement<9) {
-        console.log(this.state.isClicked)
-        console.log(this.state.red)
-        this.setState({isClicked: true});
-        setTimeout(() => {
-          this.render_statements(this.state.index_OF_statement);
-        }, interval);
-      }
+      // console.log(this.state.isClicked)
+      // console.log(this.state.red)
+
+      // if (this.state.isClicked === false && this.state.red !== 1) {
+      //   this.setState({isClicked: true},()=>{
+
+      //     setTimeout(() => {
+      //       this.render_statements(this.state.index_OF_statement);
+      //       console.log(interval);
+      //       this.setState({isClicked: false});
+      //     }, interval);
+       
+      //   })
+        
+      //   // console.log(this.state.isClicked)
+      //   // console.log(this.state.red)
+      // }
 
       this.setState({
         minutes_Counter: count.length == 1 ? '0' + count : count,
@@ -160,10 +168,8 @@ export default class Home extends Component {
   }
 
   render_statements = () => {
-
     if (this.state.index_OF_statement < this.state.statments.length - 1) {
       var index_OF_statement = this.state.index_OF_statement + 1;
-
       this.setState({index_OF_statement: index_OF_statement});
     }
 
@@ -175,8 +181,7 @@ export default class Home extends Component {
     let index_Colors = [Math.floor(Math.random() * 6) + 1];
     var index_Red = this.state.ranNums[this.state.index_OF_statement];
 
-    console.log('this is the index of array red',index_Red)
-    console.log('this is the number of red',this.state.isRed[index_Red])
+    console.log('this is the number of red', this.state.isRed[index_Red]);
 
     this.setState({
       string: statment,
@@ -190,7 +195,7 @@ export default class Home extends Component {
       seconds_Counter: '00',
     });
 
-    if (this.state.index_OF_statement === 8) {
+    if (this.state.index_OF_statement >= 8) {
       // setTimeout(() => {
       //   this.check_index_of_statement();
       //   clearInterval(this.state.timer);
@@ -212,53 +217,69 @@ export default class Home extends Component {
         seconds_Counter: '00',
         isPressed: 3,
         average: average,
-        string:''
+        string: '',
       },
       () => {
         //   this.props.changeState(this.state.isPressed, this.state.average);
-        console.log('finished');
+        console.log();
       },
     );
   };
   move = () => {
-    this.setState({isPressed:2})
-    this.setState({isClicked: true});
-    const interval = 1000*parseInt(this.props.navigation.state.params.interval);
+    console.log('the red',this.state.red)
+    console.log('is clicked',this.state.isClicked)
 
-    if (this.state.red === 1) {
-      var min = Number(this.state.minutes_Counter);
-      var sec = Number(this.state.seconds_Counter);
-      var millisecodn = sec * 1000 + min * 60 * 1000;
-      this.state.timer_array.push(millisecodn);
-      console.log('red equell 1 he is right', this.state.red);
-      console.log('interval is ',interval) ;
+    this.setState({isPressed: 2});
+    this.setState({isClicked: true}, () => {
 
-      setTimeout(() => {
-        this.render_statements(this.state.index_OF_statement);
-        this.setState({isClicked: false});
-      }, interval);
-    } else {
-      var number_of_wrong_answers = this.state.number_of_wrong_answers + 1;
-      this.setState({isPressed:1})
+      const interval =
+      1000 * parseInt(this.props.navigation.state.params.interval);
+    
+      console.log(this.state.isClicked);
+      if (this.state.red === 1) {
 
-      this.setState({number_of_wrong_answers: number_of_wrong_answers}, () => {
-        console.log(
-          'red not equell 1 he made mistake the button will turn red no word is red ',
-          this.state.red,
-        );
+        var min = Number(this.state.minutes_Counter);
+        var sec = Number(this.state.seconds_Counter);
+        var millisecodn = sec * 1000 + min * 60 * 1000;
+        
+        if(this.state.isCalculated === false)
+        {this.state.timer_array.push(millisecodn);
+          this.setState({isCalculated:true})
+        console.log(this.state.timer_array);
+        }
         setTimeout(() => {
           this.render_statements(this.state.index_OF_statement);
-        },interval);
-      });
-    }
-    console.log()
+          this.setState({isCalculated:false})
+
+        }, interval);
+      } else {
+        var number_of_wrong_answers = this.state.number_of_wrong_answers + 1;
+        this.setState({isPressed: 1});
+
+        this.setState(
+          {number_of_wrong_answers: number_of_wrong_answers},
+          () => {
+            console.log(
+              'red not equell 1 he made mistake the button will turn red no word is red ',
+              this.state.red,
+            );
+             setTimeout(() => {
+               this.render_statements(this.state.index_OF_statement);
+             }, interval);
+          },
+        );
+      }
+  
+
+
+
+    });
+
     this.setState({isClicked: false});
 
-  };
+   };
 
   render() {
-    console.log('the index',this.state.index);
-
     return (
       <View>
         <ImageBackground
@@ -276,11 +297,9 @@ export default class Home extends Component {
             }}>
             {this.state.minutes_Counter} : {this.state.seconds_Counter}
           </Text>
-          
-          <View style={{margin: 10}}>
-            {
-            (this.state.red === 1) ? (
 
+          <View style={{margin: 10}}>
+            {this.state.red === 1 ? (
               <Text
                 style={{
                   color: this.state.color,
@@ -292,15 +311,14 @@ export default class Home extends Component {
                 {this.state.string.split(' ').map((x, ind) => (
                   <Text
                     style={{
-                      color: this.state.index[0] === ind ? 'red' : this.state.color,
+                      color:
+                        this.state.index[0] === ind ? 'red' : this.state.color,
                     }}>
                     {x + ' '}
                   </Text>
                 ))}
               </Text>
-            ) : 
-            
-           ( (this.state.red === 2) ? (
+            ) : this.state.red === 2 ? (
               <Text
                 style={{
                   color: this.state.color,
@@ -332,17 +350,17 @@ export default class Home extends Component {
                 }}>
                 {this.state.string}
               </Text>
-            )
-    )
-            
-            }
+            )}
           </View>
-            
+
           {this.state.isPressed === 3 ? (
             <View>
               <TouchableOpacity
                 style={styles.buttonContainer2}
-                onPress={() => this.props.navigation.navigate('Results')}>
+                onPress={() =>  this.props.navigation.navigate
+                  ('Results', {
+                      average: this.state.average,
+                  })}>
                 <Text
                   style={{
                     textAlign: 'center',
@@ -357,11 +375,10 @@ export default class Home extends Component {
               </TouchableOpacity>
             </View>
           ) : (
-            <View >
+            <View>
               <TouchableOpacity
                 onPress={this.move}
-                style={styles.buttonContainer2
-                  }>
+                style={styles.buttonContainer2}>
                 <Text
                   style={{
                     textAlign: 'center',
@@ -375,37 +392,39 @@ export default class Home extends Component {
                 </Text>
               </TouchableOpacity>
             </View>
-          )   }
-          <View style={{margin :30}}>
-          <TouchableOpacity
+          )}
+          <View style={{margin: 30}}>
+            <TouchableOpacity
+              style={{
+                backgroundColor:
+                  this.state.red !== 1 && this.state.isPressed === 1
+                    ? 'red'
+                    : '#006b8b',
+                paddingTop: 5,
+                paddingBottom: 10,
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                borderBottomLeftRadius: 20,
+                borderBottomRightRadius: 20,
+                marginTop: 10,
+                marginLeft: 50,
+                marginRight: 50,
+                alignItems: 'center',
+                marginBottom: 5,
+              }}>
+              <Text
                 style={{
-                  backgroundColor:
-                    (this.state.red !== 1 &&
-                    this.state.isPressed=== 1)
-                      ? 'red'
-                      : '#006b8b',
+                  textAlign: 'center',
                   paddingTop: 5,
-                  paddingBottom: 10,
-                  borderTopLeftRadius: 20,
-                  borderTopRightRadius: 20,
-                  borderBottomLeftRadius: 20,
-                  borderBottomRightRadius: 20,
-                  marginTop: 10,
-                  marginLeft: 50,
-                  marginRight:50,
-                  alignItems: 'center',
-                  marginBottom: 5,
+                  paddingBottom: 5,
+                  color: 'white',
+                  fontSize: 20,
                 }}>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    paddingTop: 5,
-                    paddingBottom: 5,
-                    color: 'white',
-                    fontSize: 20,
-                  }}>   {this.state.number_of_wrong_answers}</Text>
-              </TouchableOpacity>
-              </View>
+                {' '}
+                {this.state.number_of_wrong_answers}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </ImageBackground>
       </View>
     );
@@ -416,14 +435,14 @@ const styles = StyleSheet.create({
     // backgroundColor:this.state.button_color ,
     backgroundColor: '#006b8b',
     paddingTop: 5,
-                  paddingBottom: 10,
-                  borderTopLeftRadius: 20,
-                  borderTopRightRadius: 20,
-                  borderBottomLeftRadius: 20,
-                  borderBottomRightRadius: 20,
-                  marginTop: 0,
-                  margin: 20,
-                  alignItems: 'center',
-                  marginBottom: 5,
+    paddingBottom: 10,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    marginTop: 0,
+    margin: 20,
+    alignItems: 'center',
+    marginBottom: 5,
   },
 });

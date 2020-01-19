@@ -56,7 +56,7 @@ export default class Home extends Component {
             width: wp('100%'),
             height: hp('100%'),
           }}>
-          <Text style={styles.textStyle_average}>{this.state.average} ms</Text>
+          <Text style={styles.textStyle_average}>{this.props.navigation.state.params.average} ms</Text>
 
           <TouchableOpacity
             onPress={()=>{
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   textStyle_average: {
     justifyContent: 'center',
     color: 'black',
-    fontSize: 90,
+    fontSize: 70,
     textAlign: 'center',
     margin: wp('5%'),
     marginBottom: wp('5%'),
