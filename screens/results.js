@@ -56,16 +56,9 @@ export default class Home extends Component {
             width: wp('100%'),
             height: hp('100%'),
           }}>
-          <Text style={styles.textStyle_average}>{this.props.navigation.state.params.average} ms</Text>
-
-          <TouchableOpacity
-            onPress={()=>{
-              this.props.navigation.navigate('SetInterval')
-            }}
-            style={styles.loginScreenButton}
-            underlayColor="#fff">
-            <Text style={styles.loginText}>Try Again</Text>
-          </TouchableOpacity>
+          
+          <Text style={styles.textStyle_average}> Reaction Time : {this.props.navigation.state.params.average} ms</Text>
+          <Text style={styles.textStyle_average}> Number of Wrong Statment : {this.props.navigation.state.params.wrongNumber}</Text>
           <TouchableOpacity
             onPress={this.resetTimer}
             style={styles.loginScreenButton}
@@ -98,9 +91,9 @@ const styles = StyleSheet.create({
   textStyle_average: {
     justifyContent: 'center',
     color: 'black',
-    fontSize: 70,
+    fontSize: 30,
     textAlign: 'center',
-    margin: wp('5%'),
+    marginTop: wp('40%'),
     marginBottom: wp('5%'),
     fontWeight: '600',
   },

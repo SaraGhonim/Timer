@@ -21,14 +21,7 @@ class App extends  Component{
        <AppContainer/>    
        
         </View>
-
-          
     )
   }
-
-
-
 }
-
-
 export default App;

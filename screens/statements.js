@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
@@ -6,12 +6,14 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
+import CircleButton from 'react-native-circle-button';
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import i1 from '../assets/i1.jpeg';
-import {set} from 'react-native-reanimated';
+import { set } from 'react-native-reanimated';
 
 export default class Home extends Component {
   constructor(props) {
@@ -37,7 +39,7 @@ export default class Home extends Component {
         'أقبل التلميذ من المحاضرة حزينا ولا أعلم السبب ',
         'تسعى مصر للتقدم فى مجال الصناعة والزراعة والسياحة',
         'الصياد فى البحر أولاده يلعبون معه وهو يسعى للرزق',
-        'سافر أبي وأمي وأخي  إلى الحج هذا العام',
+        'سافر أبي وأمي وأخي إلى الحج هذا العام',
         'هذا الولد متحمل للمسئولية اشترك الولد مع ابيه فى العمل',
         'يجب ان نحافظ على المياه ،تلوث المياة يؤدى إلى هلاك البشرية',
         'اشترى الأب العجلة ونبيل يلعب مع اخوة مصطفى بها ',
@@ -83,31 +85,31 @@ export default class Home extends Component {
       index_OF_statement: 0,
       average: 0,
       ranNums: [],
-      isCalculated:false,
+      isCalculated: false,
     };
   }
   create_random_uniqe = () => {
     var nums = [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        19,
-      ],
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+    ],
       ranNums1 = [],
       i = nums.length,
       j = 0;
@@ -122,7 +124,7 @@ export default class Home extends Component {
     this.create_random_uniqe();
     this.render_statements();
     const interval =
-  1000 * parseInt(this.props.navigation.state.params.interval);
+      1000 * parseInt(this.props.navigation.state.params.interval);
 
     // let statement_timer = setInterval(() => {
     //   this.render_statements();
@@ -131,7 +133,7 @@ export default class Home extends Component {
 
     // this.setState({statement_timer});
 
-   
+
 
     let timer = setInterval(() => {
       var num = (Number(this.state.seconds_Counter) + 1).toString(),
@@ -152,9 +154,9 @@ export default class Home extends Component {
       //       console.log(interval);
       //       this.setState({isClicked: false});
       //     }, interval);
-       
+
       //   })
-        
+
       //   // console.log(this.state.isClicked)
       //   // console.log(this.state.red)
       // }
@@ -164,13 +166,13 @@ export default class Home extends Component {
         seconds_Counter: num.length == 1 ? '0' + num : num,
       });
     }, 1000);
-    this.setState({timer});
+    this.setState({ timer });
   }
 
   render_statements = () => {
     if (this.state.index_OF_statement < this.state.statments.length - 1) {
       var index_OF_statement = this.state.index_OF_statement + 1;
-      this.setState({index_OF_statement: index_OF_statement});
+      this.setState({ index_OF_statement: index_OF_statement });
     }
 
     var random_statment_index = this.state.ranNums[
@@ -221,64 +223,88 @@ export default class Home extends Component {
       },
       () => {
         //   this.props.changeState(this.state.isPressed, this.state.average);
-        console.log();
+        console.log(this.state.isPressed);
       },
     );
   };
   move = () => {
-    console.log('the red',this.state.red)
-    console.log('is clicked',this.state.isClicked)
+    // console.log('the red',this.state.red)
+    // console.log('is clicked',this.state.isClicked)
 
-    this.setState({isPressed: 2});
-    this.setState({isClicked: true}, () => {
+    this.setState({ isPressed: 2 });
 
-      const interval =
-      1000 * parseInt(this.props.navigation.state.params.interval);
-    
-      console.log(this.state.isClicked);
-      if (this.state.red === 1) {
+    const interval = 1000 * parseInt(this.props.navigation.state.params.interval);
+    if (this.state.red === 1) {
+      var min = Number(this.state.minutes_Counter);
+      var sec = Number(this.state.seconds_Counter);
+      var millisecodn = sec * 1000 + min * 60 * 1000;
 
-        var min = Number(this.state.minutes_Counter);
-        var sec = Number(this.state.seconds_Counter);
-        var millisecodn = sec * 1000 + min * 60 * 1000;
-        
-        if(this.state.isCalculated === false)
-        {this.state.timer_array.push(millisecodn);
-          this.setState({isCalculated:true})
+      if (this.state.isCalculated === false) {
+        this.state.timer_array.push(millisecodn);
+        this.setState({ isCalculated: true })
         console.log(this.state.timer_array);
-        }
-        setTimeout(() => {
-          this.render_statements(this.state.index_OF_statement);
-          this.setState({isCalculated:false})
-
-        }, interval);
-      } else {
-        var number_of_wrong_answers = this.state.number_of_wrong_answers + 1;
-        this.setState({isPressed: 1});
-
-        this.setState(
-          {number_of_wrong_answers: number_of_wrong_answers},
-          () => {
-            console.log(
-              'red not equell 1 he made mistake the button will turn red no word is red ',
-              this.state.red,
-            );
-             setTimeout(() => {
-               this.render_statements(this.state.index_OF_statement);
-             }, interval);
-          },
-        );
       }
-  
+      setTimeout(() => {
+        this.render_statements(this.state.index_OF_statement);
+        this.setState({ isCalculated: false })
 
+      }, interval);
+    } else {
+      var number_of_wrong_answers = this.state.number_of_wrong_answers + 1;
+      this.setState({ isPressed: 1 });
 
-
-    });
-
-    this.setState({isClicked: false});
-
-   };
-
+      this.setState(
+        {
+          number_of_wrong_answers: number_of_wrong_answers,
+          button_color: 'red'
+        },
+        () => {
+          // console.log(
+          //   'red not equell 1 he made mistake the button will turn red no word is red ',
+          //   this.state.red,
+          // );
+          setTimeout(() => {
+            this.setState(
+              {
+                button_color: '#006b8b'
+              });
+            this.render_statements(this.state.index_OF_statement);
+          }, interval);
+        },
+      );
+    }
+  };
+  false_button_Is_Pressed = () => {
+    const interval = 1000 * parseInt(this.props.navigation.state.params.interval);
+    if (this.state.red === 1) {
+      var number_of_wrong_answers = this.state.number_of_wrong_answers + 1;
+      this.setState({ isPressed: 1 });
+      this.setState(
+        {
+          number_of_wrong_answers: number_of_wrong_answers,
+          button_color: 'red'
+        },
+        () => {
+          // console.log(
+          //   'red  equell 1 he made mistake in the button  ',
+          //   this.state.red,
+          // );
+          setTimeout(() => {
+            this.setState(
+              {
+                button_color: '#006b8b'
+              })
+            this.render_statements(this.state.index_OF_statement);
+          }, interval);
+        }
+      );
+    }
+    else {
+      setTimeout(() => {
+        this.render_statements(this.state.index_OF_statement);
+      }, interval);
+    }
+  }
   render() {
     return (
       <View>
@@ -298,7 +324,7 @@ export default class Home extends Component {
             {this.state.minutes_Counter} : {this.state.seconds_Counter}
           </Text>
 
-          <View style={{margin: 10}}>
+          <View style={{ margin: 10 }}>
             {this.state.red === 1 ? (
               <Text
                 style={{
@@ -340,26 +366,27 @@ export default class Home extends Component {
                 ))}
               </Text>
             ) : (
-              <Text
-                style={{
-                  color: this.state.color,
-                  textAlign: 'center',
-                  fontSize: 35,
-                  marginTop: 140,
-                  marginBottom: 70,
-                }}>
-                {this.state.string}
-              </Text>
-            )}
+                  <Text
+                    style={{
+                      color: this.state.color,
+                      textAlign: 'center',
+                      fontSize: 35,
+                      marginTop: 140,
+                      marginBottom: 70,
+                    }}>
+                    {this.state.string}
+                  </Text>
+                )}
           </View>
 
           {this.state.isPressed === 3 ? (
             <View>
               <TouchableOpacity
-                style={styles.buttonContainer2}
-                onPress={() =>  this.props.navigation.navigate
+                style={styles.falseButtonContainer}
+                onPress={() => this.props.navigation.navigate
                   ('Results', {
-                      average: this.state.average,
+                    average: this.state.average,
+                    wrongNumber: this.state.number_of_wrong_answers,
                   })}>
                 <Text
                   style={{
@@ -375,31 +402,46 @@ export default class Home extends Component {
               </TouchableOpacity>
             </View>
           ) : (
-            <View>
-              <TouchableOpacity
-                onPress={this.move}
-                style={styles.buttonContainer2}>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    paddingTop: 5,
-                    paddingBottom: 5,
-                    color: 'white',
-                    fontSize: 20,
-                  }}>
-                  {' '}
-                  Next
+              <View>
+                <TouchableOpacity
+                  disabled={false}
+                  onPress={this.move}
+                  style={styles.trueButtonContainer}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      paddingTop: 5,
+                      paddingBottom: 5,
+                      color: 'black',
+                      fontSize: 20,
+                    }}>
+                    {' '}
+                    true
                 </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-          <View style={{margin: 30}}>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  disabled={false}
+                  onPress={this.false_button_Is_Pressed}
+                  style={styles.falseButtonContainer}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      paddingTop: 5,
+                      paddingBottom: 5,
+                      color: 'white',
+                      fontSize: 20,
+                    }}>
+                    {' '}
+                    false
+                </Text>
+                </TouchableOpacity>
+
+              </View>
+            )}
+          <View style={{ margin: 30 }}>
             <TouchableOpacity
               style={{
-                backgroundColor:
-                  this.state.red !== 1 && this.state.isPressed === 1
-                    ? 'red'
-                    : '#006b8b',
+                backgroundColor: this.state.button_color,
                 paddingTop: 5,
                 paddingBottom: 10,
                 borderTopLeftRadius: 20,
@@ -431,7 +473,21 @@ export default class Home extends Component {
   }
 }
 const styles = StyleSheet.create({
-  buttonContainer2: {
+  trueButtonContainer: {
+    // backgroundColor:this.state.button_color ,
+    backgroundColor: 'red',
+    paddingTop: 5,
+    paddingBottom: 10,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    marginTop: 0,
+    margin: 20,
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  falseButtonContainer: {
     // backgroundColor:this.state.button_color ,
     backgroundColor: '#006b8b',
     paddingTop: 5,
