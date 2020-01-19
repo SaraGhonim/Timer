@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   View,
@@ -7,54 +7,61 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
-    this.resetTimer=this.resetTimer.bind(this);
+    this.resetTimer = this.resetTimer.bind(this);
 
-  this.state = {
-    isPressed: 1,
-    timer: null,
-    minutes_Counter: '00',
-    seconds_Counter: '00',
-    statement_timer: null,
-    index: 0,
-    index_Colors: 0,
-    timer_array: [],
-    index_OF_statement: 0,
-    average: 0,
-  };
-}
-
-resetTimer = () => {
-    this.setState({
+    this.state = {
       isPressed: 1,
       timer: null,
-      statement_timer: null,
       minutes_Counter: '00',
       seconds_Counter: '00',
+      statement_timer: null,
+      index: 0,
+      index_Colors: 0,
+      timer_array: [],
       index_OF_statement: 0,
-    },()=>
- {   // {this.props.changeState(this.state.isPressed);
-     this.props.navigation.navigate('Home');
-    })
-   
-
+      average: 0,
+    };
   }
+
+  resetTimer = () => {
+    this.setState(
+      {
+        isPressed: 1,
+        timer: null,
+        statement_timer: null,
+        minutes_Counter: '00',
+        seconds_Counter: '00',
+        index_OF_statement: 0,
+      },
+      () => {
+        // {this.props.changeState(this.state.isPressed);
+        this.props.navigation.navigate('Welcome');
+      },
+    );
+  };
   render() {
     return (
-        <View>
+      <View>
         <ImageBackground
-         source={require('../assets/i6.jpg')}
+          source={require('../assets/i6.jpg')}
           style={{
-            width: wp('100%'), height: hp('100%'),
+            width: wp('100%'),
+            height: hp('100%'),
           }}>
-                          <Text style={styles.textStyle_average}>{this.state.average} ms</Text>
+          <Text style={styles.textStyle_average}>{this.state.average} ms</Text>
 
           <TouchableOpacity
-            onPress={this.resetTimer}
+            onPress={()=>{
+              this.props.navigation.navigate('SetInterval')
+            }}
             style={styles.loginScreenButton}
             underlayColor="#fff">
             <Text style={styles.loginText}>Try Again</Text>
@@ -63,10 +70,12 @@ resetTimer = () => {
             onPress={this.resetTimer}
             style={styles.loginScreenButton}
             underlayColor="#fff">
-            <Text style={styles.loginText}>Go Home</Text>
+            <Text style={styles.loginText}>Exit</Text>
           </TouchableOpacity>
         </ImageBackground>
-      </View>)}
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -77,31 +86,23 @@ const styles = StyleSheet.create({
     paddingRight: wp('5%'),
     fontSize: 25,
   },
-   loginScreenButton: {
-    marginRight: wp('5%'),
-    marginLeft:wp('5%'),
+  loginScreenButton: {
+    marginRight: wp('13%'),
+    marginLeft: wp('13%'),
     marginTop: wp('30%'),
-    paddingTop: wp('3.5%'),
-    paddingBottom: wp('3.5%'),
+    paddingTop: wp('2%'),
+    paddingBottom: wp('2%'),
     backgroundColor: '#006b8b',
     borderRadius: 10,
   },
   textStyle_average: {
     justifyContent: 'center',
-    color: 'red',
+    color: 'black',
     fontSize: 90,
     textAlign: 'center',
-    margin:wp('5%'),
+    margin: wp('5%'),
     marginBottom: wp('5%'),
     fontWeight: '600',
   },
-  textStyle_average: {
-    justifyContent: 'center',
-    color: 'black',
-    fontSize: 70,
-    textAlign: 'center',
-    margin:wp('5%'),
-    marginBottom: wp('5%'),
-    fontWeight: '600',
-  },
+  
 });

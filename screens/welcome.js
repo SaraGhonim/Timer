@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   View,
@@ -7,73 +7,104 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import SwipeUpDown from 'react-native-swipe-up-down';
+import Register from './register';
+import SwipeablePanel from 'rn-swipeable-panel';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
-    this._start=this._start.bind(this);
+    this._start = this._start.bind(this);
 
-  this.state = {
-    isPressed: 1,
+    this.state = {
+      isPressed: 1,
+      swipeablePanelActive: false,
+    };
+  }
+
+   componentDidMount = () => {
+     this.closePanel();
   };
-}
+
+  openPanel = () => {
+    this.setState({swipeablePanelActive: true});
+  };
+
+  closePanel = () => {
+    this.setState({swipeablePanelActive: false});
+  };
 
   _start = () => {
     this.setState({isPressed: 2}, () => {
       console.log('Start is Pressed Start the timer');
-    //   this.props.changeState(this.state.isPressed);
-      this.props.navigation.navigate('Register')
-
+        // this.props.changeState(this.state.swipeablePanelActive);
+        // this.props.navigation.navigate('Register')
     });
   };
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <ImageBackground
-        
           style={{
-            width: wp('100%'), height: hp('100%'),
+            width: wp('100%'),
+            height: hp('100%'),
             backgroundColor: '#006b8b',
           }}>
-            <View
-              style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <Image
-                source={require('../assets/i2.png')}
-                style={styles.imageStyle}
-              />
-            </View>
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Image
+              source={require('../assets/i2.png')}
+              style={styles.imageStyle}
+            />
+          </View>
+
+          <View>
             <TouchableOpacity
-              onPress={this._start}
+              onPress={this.openPanel}
               style={styles.loginScreenButton}
               underlayColor="#fff">
               <Text style={styles.loginText}>Register</Text>
             </TouchableOpacity>
+          </View>
+
+          <SwipeablePanel
+            isActive={this.state.swipeablePanelActive}
+            onClose={() => this.closePanel()}>
+
+              <Register navigation={this.props.navigation} ></Register>
+            </SwipeablePanel>
+
+       
         </ImageBackground>
-      </View>)}
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   loginText: {
-    color: 'black',
+    color: '#006b8b',
     textAlign: 'center',
     paddingLeft: wp('5%'),
     paddingRight: wp('5%'),
     fontSize: 25,
   },
-   loginScreenButton: {
+  loginScreenButton: {
     marginRight: wp('5%'),
-    marginLeft:wp('5%'),
-    marginTop: wp('30%'),
-    paddingTop: wp('5%'),
-    paddingBottom: wp('5%'),
-    backgroundColor: '#fff',
+    marginLeft: wp('5%'),
+    marginTop: wp('10%'),
+    paddingTop: wp('3%'),
+    paddingBottom: wp('3%'),
+    // backgroundColor: '#006b8b',
     borderRadius: 10,
+    backgroundColor: '#fff',
   },
   imageStyle: {
-    height:hp('37%'),
+    height: hp('37%'),
     width: wp('65%'),
-    marginTop: 50,
-
+    marginTop: 110,
   },
 });

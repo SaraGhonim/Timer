@@ -58,13 +58,14 @@ export default class SignIn extends Component {
         {/* //this.props.navigation.navigate('Home') */}
         <TouchableOpacity
           style={styles.buttonContainer2}
-          onPress={() => this.props.navigation.navigate('Home')}>
+          onPress={() => this.props.navigation.navigate('SetInterval')}>
           <Text
             style={{
               textAlign: 'center',
-              paddingTop: 10,
-              paddingBottom: 10,
+              paddingTop: 5,
+              paddingBottom: 5,
               color: 'white',
+              fontSize:20
             }}>
             {' '}
             Start

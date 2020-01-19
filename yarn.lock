@@ -6517,6 +6517,11 @@ react-native-screens@^2.0.0-alpha.25:
   dependencies:
     debounce "^1.2.0"
 
+react-native-swipe-up-down@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/react-native-swipe-up-down/-/react-native-swipe-up-down-1.0.7.tgz#083714875b5db1c81d589a09eb8c32a9ffae30a4"
+  integrity sha512-8j3mo+ukZBLRfQNz5N/TXLG7hTKTT8fg/2HkWWJ9umRzPz2kDthxzIkntp9QRPVh7h/sRymkhZdtLY3axdO2Zw==
+
 react-native@0.61.5:
   version "0.61.5"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.61.5.tgz#6e21acb56cbd75a3baeb1f70201a66f42600bba8"
@@ -6955,6 +6960,13 @@ rimraf@~2.2.6:
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
   integrity sha1-5Dm+Kq7jJzIZUnMPmaiSnk/FBYI=
+
+rn-swipeable-panel@^1.0.19:
+  version "1.0.19"
+  resolved "https://registry.yarnpkg.com/rn-swipeable-panel/-/rn-swipeable-panel-1.0.19.tgz#2aabfe487057a4e7a878d0f062a6e6026cb8adec"
+  integrity sha512-oGArsftQ9MBBGajOeXSgcG0SjqmzsK+KBjbrZcg366v9lWvobNrAxv78Bca4rGy+Z61fQze3Ot7o65qBpW3YMA==
+  dependencies:
+    prop-types "^15.7.2"
 
 rsvp@^4.8.4:
   version "4.8.5"

@@ -21,11 +21,17 @@ import Register from '../screens/register';
 import Home from '../screens/statements';
 import Results from '../screens/results';
 import Welcome from '../screens/welcome';
+import SetInterval from '../screens/setInterval';
 
 const FirstStack = createStackNavigator(
   {  Welcome,
     Register,
-    Home,
+    SetInterval,
+     Home:{screen:Home,navigationOptions: ({ navigation }) => ({
+         
+         headerTintColor: '#000000',
+      }),
+    },
     Results,
   },
   {headerMode: 'none'},
